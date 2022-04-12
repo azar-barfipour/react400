@@ -21,13 +21,13 @@ const App = () => {
   const [user, setUser] = useState(false);
 
   const routes = useRoutes([
-    { path: "/", element: <Home /> },
+    { path: "/", element: user && <Home /> },
     { path: "/login", element: <Login setUser={setUser} /> },
     { path: "/register", element: <Register setUser={setUser} /> },
-    { path: "/dashboard", element: <Dashboard /> },
-    { path: "/post/:postId", element: <PostPage /> },
-    { path: "/comments", element: <Comments /> },
-    { path: "/profile", element: <Profile /> },
+    { path: "/dashboard", element: user && <Dashboard /> },
+    { path: "/post/:postId", element: user && <PostPage /> },
+    { path: "/comments", element: user && <Comments /> },
+    { path: "/profile", element: user && <Profile /> },
     { path: "*", element: <NotFound /> },
     {
       path: "/messages",
@@ -39,14 +39,28 @@ const App = () => {
     <div className="wrapper">
       <div className="sidebar">
         <ul className="nav">
-          <li>{user && <CustomLink to="/">Home</CustomLink>}</li>
-          <li>
-            <CustomLink to="/login">Login</CustomLink>
-          </li>
-          <li>
-            <CustomLink to="/register">Register</CustomLink>
-          </li>
-          <li>{user && <CustomLink to="/dashboard">Dashboard</CustomLink>}</li>
+          {user && (
+            <li>
+              {" "}
+              <CustomLink to="/">Home</CustomLink>
+            </li>
+          )}
+
+          {user ? (
+            <li>
+              {" "}
+              <CustomLink to="/dashboard">Dashboard</CustomLink>
+            </li>
+          ) : (
+            <>
+              <li>
+                <CustomLink to="/login">Login</CustomLink>
+              </li>
+              <li>
+                <CustomLink to="/register">Register</CustomLink>
+              </li>
+            </>
+          )}
         </ul>
         {/* <Routes>
           <Route path="/" element={<p>This is your home page</p>} />
